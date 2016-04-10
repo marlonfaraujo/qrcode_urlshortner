@@ -1,6 +1,6 @@
-# References
+# Example usage api google urlshortener and qrcode generator
 
-- Example usage api google urlshortener and qrcode generator 
+-  References
 
 https://developers.google.com/url-shortener/v1/getting_started#APIKey
 
