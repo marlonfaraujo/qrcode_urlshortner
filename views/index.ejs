@@ -1,0 +1,27 @@
+<div class="form-group">
+
+    <h3>Encurte sua URL e gere QRCode</h3>
+    <section id="todoapp" class="inline-block">
+        <header id="header">
+            <input id="new-todo" placeholder="Digite a url que deseja" autofocus="" ng-model="data.longUrl">
+        </header>
+    </section>
+    <section class="inline-block">
+        <button class="btn btn-primary btn-lg" ng-click="gerar()">Gerar</button>
+    </section>
+
+    <section ng-show="errorMsg != null">
+        <div class="text-error">
+            {{ errorMsg }}
+        </div>
+    </section>
+</div>
+<main class="form-group" ng-show="data.id != null && image != null">
+    <div class="form-group">
+        <input type="text" ng-model="data.id" ng-click="copy($event)" class="form-control inline-block gray" readonly="readonly">
+        <label> Pronto! Clique para copiar </label>
+    </div>
+    <div class="qrcode">
+        <img ng-src="{{image}}">
+    </div>
+</main>

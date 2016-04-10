@@ -1,0 +1,56 @@
+var express = require('express');
+//var router = express.Router();
+
+var GoogleApiUrl = require('../api/google/url.js');
+var url = new GoogleApiUrl();
+
+module.exports = function(router){
+
+  router.get('/', function(req, res) {
+    res.render('master.ejs');
+  });
+
+  router.get('/:name', function(req, res) {
+    var name = req.params.name;
+    res.render(name + '.ejs');
+  });
+
+  router.post('/api/url', function(req, res){
+    var body = {};
+
+    if(!req.body || !req.body.longUrl) { return res.status(500).json({message: "Parâmetros inválidos."}); }
+
+    if(!req.body.qrcode) { return res.status(500).json({message: "Parâmetros inválidos."}); }
+
+    url.short({longUrl: req.body.longUrl}, function(error, data){
+      if (error) { return res.status(500).json(error); }
+      body.urlShort = data;
+
+      url.qrCode(req.body.qrcode, function(error, data){
+        if (error) { return res.status(500).json(error); }
+        body.qrcode = data;
+        return res.status(200).json(body);
+      });
+
+    });
+  });
+
+  router.post('/api/url/shortener', function(req, res) {
+
+    if(!req.body || !req.body.longUrl) { return res.status(500).json({message: "Parâmetros inválidos."}); }
+
+    url.short(req.body, function(error, data) {
+      if (error) { return res.status(500).json(error); }
+      return res.status(200).json(data);
+    });
+  });
+
+  router.get('/api/url/qrcode', function(req, res){
+
+    url.qrCode(req.body, function(error, data){
+      if (error) { return res.status(500).json(error); }
+      return res.status(200).json(data);
+    });
+  });
+
+};
