@@ -45,7 +45,7 @@ var GoogleApi = function(){
             if (res.statusCode != 200) {
                 return cb({
                     "code": res.statusCode,
-                    "message": "Erro na geração."
+                    "message": "Erro na geração. Tente novamente."
                 }, null);
             }
 

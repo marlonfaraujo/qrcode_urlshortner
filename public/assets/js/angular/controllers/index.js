@@ -19,7 +19,7 @@ function IndexCtrl($scope, $location, Index) {
             $scope.image = "https://chart.googleapis.com/chart?chs=280x280&cht=qr&choe=UTF-8&chl="+$scope.data.id;
         }, function (error) {
             reset();
-            $scope.errorMsg = error;
+            $scope.errorMsg = error.data.message;
         });
     };
     $scope.copy = function(element){
