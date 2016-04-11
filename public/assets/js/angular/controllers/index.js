@@ -40,7 +40,8 @@ function IndexCtrl($scope, $location, Index) {
     function reset(){
         $scope.errorMsg = null;
         $scope.image = null;
-        $scope.data.id = null;
+        if($scope.data && $scope.data.id)
+            $scope.data.id = null;
     }
 
 }
