@@ -7,7 +7,7 @@ function IndexCtrl($scope, $location, Index) {
 
     $scope.gerar = function(){
 
-        if((!$scope.data || !$scope.data.longUrl) || !validate($scope.data.longUrl)){
+        if(!$scope.data || !$scope.data.longUrl){
             reset();
             $scope.errorMsg = "URL inválida. Exemplo: http://google.com";
             return false;
