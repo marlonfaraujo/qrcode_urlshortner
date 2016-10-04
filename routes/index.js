@@ -1,5 +1,5 @@
 var express = require('express');
-//var router = express.Router();
+var async = require('async');
 
 var GoogleApiUrl = require('../api/google/url.js');
 var url = new GoogleApiUrl();
@@ -16,30 +16,32 @@ module.exports = function(router){
   });
 
   router.post('/api/url', function(req, res){
-    var body = {};
-
+    
     if(!req.body || !req.body.longUrl) { return res.status(500).json({message: "Parâmetros inválidos."}); }
 
     if(!req.body.qrcode) { return res.status(500).json({message: "Parâmetros inválidos."}); }
 
-    url.short({longUrl: req.body.longUrl}, function(error, data){
-      if (error) { return res.status(500).json(error); }
-      body.urlShort = data;
+    async.series({
+      urlShort: function(callback){
+        url.short(req.body, callback);
+      }, 
+      qrcode: function(callback){
+        url.qrCode(req.body.qrcode, callback);
+      }
+      }, 
+    function response(err, results){
+      if (err) { return res.status(500).json(err); }
 
-      url.qrCode(req.body.qrcode, function(error, data){
-        if (error) { return res.status(500).json(error); }
-        body.qrcode = data;
-        return res.status(200).json(body);
-      });
-
+      return res.status(200).json(results);
     });
+
   });
 
   router.post('/api/url/shortener', function(req, res) {
 
     if(!req.body || !req.body.longUrl) { return res.status(500).json({message: "Parâmetros inválidos."}); }
 
-    url.short(req.body, function(error, data) {
+    url.short(req.body, function responseShortener(error, data) {
       if (error) { return res.status(500).json(error); }
       return res.status(200).json(data);
     });
@@ -47,7 +49,7 @@ module.exports = function(router){
 
   router.get('/api/url/qrcode', function(req, res){
 
-    url.qrCode(req.body, function(error, data){
+    url.qrCode(req.body, function responseQrcode(error, data){
       if (error) { return res.status(500).json(error); }
       return res.status(200).json(data);
     });
