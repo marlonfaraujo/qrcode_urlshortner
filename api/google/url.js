@@ -41,7 +41,7 @@ var GoogleApi = function(){
     };
 
     function requestApi(options, cb){
-        request(options, function (error, res, body) {
+        request(options, function response(error, res, body) {
             if (res.statusCode != 200) {
                 return cb({
                     "code": res.statusCode,
@@ -49,7 +49,7 @@ var GoogleApi = function(){
                 }, null);
             }
 
-            cb(null, body);
+            return cb(error, body);
         });
     };
 };
