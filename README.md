@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/marlonfda/qrcode_urlshortner.svg?branch=master)](https://travis-ci.org/marlonfda/qrcode_urlshortner)
+
 # Example usage api google urlshortener and qrcode generator
 
 -  References
